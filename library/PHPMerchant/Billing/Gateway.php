@@ -72,7 +72,6 @@ abstract class PHPMerchant_Billing_Gateway {
 
 		foreach ($required as $k) {
 			if (!isset($options[$k])) {
-				require_once 'Gateway/Exception.php';
 				throw new PHPMerchant_Gateway_Exception(sprintf(
 					"Required option '%s' is missing", $k
 				));
