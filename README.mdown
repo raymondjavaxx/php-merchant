@@ -1,0 +1,35 @@
+Usage:
+
+	<?php
+	
+	require_once 'PHPMerchant/PHPMerchant.php';
+	require_once 'PHPMerchant/Billing/Gateway/PayPal.php';
+	
+	$card = new PHPMerchant_Billing_CreditCard(array(
+	        'first_name' => 'John',
+	        'last_name'  => 'Doe',
+	        'number'     => '4111111111111111',
+	        'month'      => 12,
+	        'year'       => 2018,
+	        'verification_value' => 123,
+	        'type'       => 'visa'
+	));
+	
+	if ($card->isValid()) {
+	        $gateway = new PHPMerchant_Billing_Gateway_PayPal(array(
+	                'login'     => 'testlogin',
+	                'password'  => 'testpassword',
+	                'signature' => 'testsignature',
+	                'test'      => true
+	        ));
+	
+	        $response = $gateway->purchase(1000, $card);
+	        if ($response->success) {
+	                echo "Purchase complete!";
+	        } else {
+	                echo "Error: " . $response->message;
+	        }
+	
+	} else {
+	        echo "Error: credit card is not valid. " . join('. ', $card->errors());
+	}
